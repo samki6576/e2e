@@ -124,6 +124,8 @@ describe('standalone attempt cache identity', () => {
       summary,
     });
     context.staged.push({ kind: 'write', keyHash: 'a'.repeat(64), trace: trace('verified'), stepIndex: 1 });
+    store.entries.set('b'.repeat(64), JSON.stringify(buildTraceEntry(trace('stale unverified'))));
+
     context.staged.push({ kind: 'write', keyHash: 'b'.repeat(64), trace: trace('unverified'), stepIndex: 3 });
     // Standalone close: passed → implicatesUnconfirmed true, lastVerifiedStepIndex from steps.
     await flushStagedTraces(context, { lastVerifiedStepIndex: 2, implicatesUnconfirmed: true });
